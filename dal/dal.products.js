@@ -6,7 +6,7 @@ const readFileAsync = promisify(fs.readFile);
 
 function writeFiles(data){
     const jsonData = JSON.stringify(data)
-    fs.writeFile('C:/nodeJs/nodejs_projact/data.json', jsonData, (err) => {
+    fs.writeFile('C:/nodeJs/nodejs_projact/data.products.json', jsonData, (err) => {
         if (err) throw err;
         return 'The file has been saved!'
         });
@@ -15,7 +15,7 @@ function writeFiles(data){
 
 async function readFiles() {
     try {
-        const textData = await readFileAsync('C:/nodeJs/nodejs_projact/data.json', 'utf8');
+        const textData = await readFileAsync('C:/nodeJs/nodejs_projact/data.products.json', 'utf8');
         // console.log(textData)
         return JSON.parse(textData)
     } catch (err) {

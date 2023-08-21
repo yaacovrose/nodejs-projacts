@@ -18,13 +18,41 @@
         "idCreator": 3,
         "email": "user2@example.com",
         "password": "userpass456",
-        "isAdmin": false
+        "isAdmin": true
     },
     {
         "id": 4,
         "idCreator": 4,
-        "email": "user2@example.com",
-        "password": "$2b$05$fI28R0FV17BOZdUUB2zyku3Nke7XjC0e4mZWUZe97lBmTt0b6NB9u",
+        "email": "admin@example.com",
+        "password": "adminpass",
         "isAdmin": true
+    },
+    {
+        "id": 5,
+        "idCreator": 4,
+        "email": "admin@example.com",
+        "password": "$2b$05$JB6.hJ1w1EGuc/3tzfq6me/B.CuRnhFFOHF0FoFvico25oMO8VjX2",
+        "isAdmin": true
+    },
+    {
+        "id": 6,
+        "idCreator": 3,
+        "email": "user2@examples.com",
+        "password": "$2b$05$k.isuBcyuikZqacI0n7t2OwGOycEFk5Djjbr4hkC8TaCMh/XcoZcO",
+        "isAdmin": true
+    },
+    {
+        "idCreator": 3,
+        "email": "user2@exam.com",
+        "password": "$2b$05$Or/zy59fXg6x.pYwjjnXpuXxr4qbAYMZWaSChjxPooPut5r/Ye4a6",
+        "isAdmin": true,
+        "id": 7
+    },
+    {
+        "idCreator": 3,
+        "email": "user2@exam.com",
+        "password": "$2b$05$TqRm0a.RBlO3lT5UXnQT2OIv2UydjgMzBUlrMd4b.MiEWhSSP6DS.",
+        "isAdmin": true,
+        "id": 8
     }
 ]

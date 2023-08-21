@@ -1,13 +1,116 @@
 import usersDal from "./dal/dal.users.js";
 import bcrypt from 'bcrypt';
+import Joi from "joi";
 
+
+const allUsersValid = (req, res, next) => {
+    const { email, password } = req.query
+    const user = {
+        email,
+        password,
+    }
+    const valid = validate(user)
+    if (valid !== true){
+        res.send(valid)
+    } else {
+        next()
+    }
+}
+const userByIdValid = (req, res, next) => {
+    const id = req.params.id
+    const { email, password } = req.query
+    const user = {
+        id,
+        email,
+        password,
+    }
+    const valid = validate(user)
+    if (valid !== true){
+        res.send(valid)
+    } else {
+        next()
+    }
+}
+
+const loginValid = (req, res, next) => {
+    const { email, password } = req.body
+    const user = {
+        email,
+        password,
+    }
+    const valid = validate(user)
+    if (valid !== true){
+        res.send(valid)
+    } else {
+        next()
+    }
+}
+
+
+const updateValid = (req, res, next) => {
+    const details = req.body
+    const valid = validate(details)
+    if (valid !== true){
+        res.send(valid)
+    } else {
+        next()
+    }
+}
+
+
+const deleteValid = (req, res, next) => {
+    const id = req.params.id
+    const { email, password } = req.query
+    const user = {
+        id,
+        email,
+        password,
+    }
+    const valid = validate(user)
+    if (valid !== true){
+        res.send(valid)
+    } else {
+        next()
+    }
+}
+
+
+const addUserValid = (req, res, next) => {
+    const details = req.body
+    const valid = validate(details)
+    if (valid !== true){
+        res.send(valid)
+    } else {
+        next()
+    }
+}
+
+
+function validate (user) {
+    const userSchema = Joi.object({
+        id: Joi.number().integer().min(1),
+        idCreator: Joi.number().integer().min(1),
+        email: Joi.string().email(),
+        password: Joi.string().min(8),
+        isAdmin: Joi.boolean(),
+    });
+
+    const validationResult = userSchema.validate(user);
+    
+    if (validationResult.error) {
+        return (validationResult.error.details)
+        
+    } else {
+        return true
+        
+    }
+}
 
 
 
 const isAdmin = async (req, res, next) => {
     try {
-        const email = req.query.email
-        const password = req.query.password
+        const { email, password } = req.query
         const exist = await isExist(email, password)
         if (!exist){
             res.send('User not found')
@@ -25,20 +128,19 @@ const isAdmin = async (req, res, next) => {
         res.send(err)
     }
     }
+    
 
-
-const adminOrCreator = async (req, res, next) => {
+const isCreator = async (req, res, next) => {
     try {
-        const email = req.query.email
-        const password = req.query.password
+        const { email, password } = req.query
         const exist = await isExist(email, password)
         if (!exist){
             res.send('User not found')
             return
         } else {
-            const checkAdmin = isUserAdmin(exist)
-            const checkCreator = cardCreator(exist)
-            if (checkAdmin && checkCreator) {
+            const id = req.params.id
+            const check = cardCreator(id)
+            if (check) {
                 next()
             } else {
                 res.send('no access')
@@ -50,6 +152,29 @@ const adminOrCreator = async (req, res, next) => {
     }
 }
 
+
+const adminOrCreator = async (req, res, next) => {
+    try {
+        const { email, password } = req.query
+        const exist = await isExist(email, password)
+        if (!exist){
+            res.send('User not found')
+            return
+        } else {
+            const checkAdmin = isUserAdmin(exist) 
+            const id = req.params.id
+            const checkCreator = cardCreator(id)
+            if (checkAdmin || checkCreator) {
+                next()
+            } else {
+                res.send('no access')
+                return
+            }
+        }
+    } catch (err){
+        res.send(err)
+    }
+}
 
 
 
@@ -73,8 +198,10 @@ function isUserAdmin (user) {
 }
 
 
-function cardCreator (user) {
-    if (user.id == user.idCreator){
+async function cardCreator (id) {
+    const allUsers = await usersDal.readFiles()
+    const user = allUsers.find(user => user.id == id)
+    if (user.id === user.idCreator){
         return true
     } else {
         return false
@@ -82,7 +209,14 @@ function cardCreator (user) {
 }
 
 const middleWare = {
+    allUsersValid,
+    userByIdValid,
+    loginValid,
+    updateValid,
+    addUserValid,
+    deleteValid,
     isAdmin,
+    isCreator,
     adminOrCreator,
 }
 

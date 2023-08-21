@@ -30,7 +30,11 @@ const addUser = async (user) => {
     try {
         user.password = hash
         const usersList = await usersDal.readFiles()
+        console.log(usersList)
+        user.id = id(usersList) 
+        console.log(user)
         usersList.push(user)
+        console.log(usersList)
         usersDal.writeFiles(usersList)
         return 'the user has been successfully added'
     } catch (err) {
@@ -76,6 +80,17 @@ const deleteUser = async (userToDelete) => {
     }
 }
 
+
+function id (users) {
+    let maxId = 0
+    users.forEach((element) => {
+        if (+element.id > maxId){
+            maxId = element.id 
+        }
+    });
+    const nextId = maxId + 1
+    return nextId
+}
 
 
 const usersService = {

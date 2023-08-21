@@ -27,7 +27,7 @@ const addUser = async (req, res) => {
         const newUser = req.body;
         const add = await usersService.addUser(newUser);
         console.log(add)
-        res.status(200).json(add)
+        res.status(200).send(add)
     }
     catch (err) {
         res.status(404).send('user is nut added')

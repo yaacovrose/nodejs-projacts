@@ -1,30 +1,89 @@
 import usersDal from "./dal/dal.users.js";
+import bcrypt from 'bcrypt';
+
+
 
 
 const isAdmin = async (req, res, next) => {
-    try {const email = req.query.email
-    const password = req.query.password
-    const allUsers = await usersDal.readFiles()
-    const user = allUsers.find((user) => user.email === email && user.password === password)
-    if (!user){
-        res.send('User not found')
-        return
-    } else {
-        if (user.isAdmin) {
-            next()
-        } else {
-            res.send('no access')
+    try {
+        const email = req.query.email
+        const password = req.query.password
+        const exist = await isExist(email, password)
+        if (!exist){
+            res.send('User not found')
             return
+        } else {
+            const check = isUserAdmin(exist)
+            if (check) {
+                next()
+            } else {
+                res.send('no access')
+                return
+            }
         }
-}
-} catch (err){
-    res.send(err)
-}
+    } catch (err){
+        res.send(err)
+    }
+    }
+
+
+const adminOrCreator = async (req, res, next) => {
+    try {
+        const email = req.query.email
+        const password = req.query.password
+        const exist = await isExist(email, password)
+        if (!exist){
+            res.send('User not found')
+            return
+        } else {
+            const checkAdmin = isUserAdmin(exist)
+            const checkCreator = cardCreator(exist)
+            if (checkAdmin && checkCreator) {
+                next()
+            } else {
+                res.send('no access')
+                return
+            }
+        }
+    } catch (err){
+        res.send(err)
+    }
 }
 
+
+
+
+async function isExist (email, password){
+    const allUsers = await usersDal.readFiles()
+    const user = allUsers.find((user) => user.email === email && bcrypt.compareSync(password,user.password))
+    if (user){
+        return user
+    } else {
+        return false
+    }
+}
+
+
+function isUserAdmin (user) {
+    if (user.isAdmin){
+        return true
+    } else {
+        return false
+    }
+}
+
+
+function cardCreator (user) {
+    if (user.id == user.idCreator){
+        return true
+    } else {
+        return false
+    }
+}
 
 const middleWare = {
     isAdmin,
+    adminOrCreator,
 }
 
 export default middleWare

@@ -1,5 +1,5 @@
 import usersDal from "../dal/dal.users.js"
-
+import bcrypt from 'bcrypt'
 
 const allUsers = async () => {
     const allUsers = await usersDal.readFiles()
@@ -25,9 +25,11 @@ const login = async (email, password) => {
 
 
 const addUser = async (user) => {
+    const password = user.password
+    const hash = bcrypt.hashSync(password, 5);
     try {
+        user.password = hash
         const usersList = await usersDal.readFiles()
-        console.log(usersList)
         usersList.push(user)
         usersDal.writeFiles(usersList)
         return 'the user has been successfully added'

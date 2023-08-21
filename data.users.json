@@ -1,1 +1,30 @@
-[{"id":1,"email":"user1@example.com","password":"password123","isAdmin":false},{"id":2,"email":"admin@example.com","password":"adminpass","isAdmin":true},{"id":3,"email":"user2@example.com","password":"userpass456","isAdmin":false}]
+[
+    {
+        "id": 1,
+        "idCreator": 3,
+        "email": "user1@example.com",
+        "password": "password123",
+        "isAdmin": false
+    },
+    {
+        "id": 2,
+        "idCreator": 2,
+        "email": "admin@example.com",
+        "password": "adminpass",
+        "isAdmin": true
+    },
+    {
+        "id": 3,
+        "idCreator": 3,
+        "email": "user2@example.com",
+        "password": "userpass456",
+        "isAdmin": false
+    },
+    {
+        "id": 4,
+        "idCreator": 4,
+        "email": "user2@example.com",
+        "password": "$2b$05$fI28R0FV17BOZdUUB2zyku3Nke7XjC0e4mZWUZe97lBmTt0b6NB9u",
+        "isAdmin": true
+    }
+]

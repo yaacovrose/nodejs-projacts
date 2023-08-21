@@ -9,9 +9,9 @@ productRouter.get('/:id', productController.getProductById);
 
 productRouter.post('/', productController.addProduct);
 
-productRouter.patch('/:id', productController.updateProduct )
-productRouter.patch('/quantity/:id', productController.updateQuantity )
+productRouter.patch('/:id', productController.updateProduct);
+productRouter.patch('/quantity/:id', productController.updateQuantity);
 
-productRouter.delete('/:id', productController.deleteProduct)
+productRouter.delete('/:id', productController.deleteProduct);
 
 export default productRouter;

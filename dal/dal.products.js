@@ -1,10 +1,12 @@
 import { promisify } from 'util';
 import * as fs from 'node:fs';
+import { log } from 'console';
 0  
 const readFileAsync = promisify(fs.readFile);
 
 
 function writeFiles(data){
+    console.log(data);
     const jsonData = JSON.stringify(data)
     fs.writeFile('C:/nodeJs/nodejs_projact/data.products.json', jsonData, (err) => {
         if (err) throw err;

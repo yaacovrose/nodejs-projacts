@@ -30,11 +30,8 @@ const addUser = async (user) => {
     try {
         user.password = hash
         const usersList = await usersDal.readFiles()
-        console.log(usersList)
         user.id = id(usersList) 
-        console.log(user)
         usersList.push(user)
-        console.log(usersList)
         usersDal.writeFiles(usersList)
         return 'the user has been successfully added'
     } catch (err) {

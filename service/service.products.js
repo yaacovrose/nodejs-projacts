@@ -3,7 +3,6 @@ import productDal from "../dal/dal.products.js"
 
 const allProduct = async () => {
     const allProduct = await productDal.readFiles();
-    console.log(allProduct)
     return allProduct;
 }
 
@@ -17,7 +16,7 @@ const oneProduct = async (id) => {
 const addProduct = async (product) => {
     try {
         const productsList = await productDal.readFiles()
-        product.id = id(usersList)
+        product.id = id(productsList)
         productsList.push(product);
         productDal.writeFiles(productsList);
         return 'the product has been successfully added';
@@ -43,12 +42,10 @@ const updateProduct = async (id, update) => {
         const productsList = await productDal.readFiles()
         const productIndex = productsList.findIndex(pro => pro.id == id)
         productsList[productIndex] = { ...productsList[productIndex], ...update};
-        console.log(productsList)
         productDal.writeFiles(productsList)
         return 'product updated'
     } catch (err) {
-        console.log(err)
-        return err + 'check'
+        return err 
     }
 }
 
@@ -58,7 +55,6 @@ const updateQuantity = async (id, update) => {
         const productsList = await productDal.readFiles()
         const productIndex = productsList.findIndex(pro => pro.id == id)
         productsList[productIndex] = { ...productsList[productIndex], ...update};
-        console.log(productsList)
         productDal.writeFiles(productsList)
         return 'quantity updated'
     } catch (err) {
@@ -71,16 +67,12 @@ const updateQuantity = async (id, update) => {
 const deleteProduct = async (productToDelete) => {
     try {
         const productsList = await productDal.readFiles()
-        console.log(productsList)
         const productIndex = productsList.findIndex(pro => pro.id == productToDelete)
-        console.log(productIndex)
         productsList.splice(productIndex, 1) 
-        console.log(productsList)
         productDal.writeFiles(productsList)
         return 'product is deleted'
     } catch (err) {
-        console.log(err)
-        return err + 'check'
+        return err 
     }
 }
 
@@ -95,4 +87,4 @@ const productServices = {
     deleteProduct,
 }
 
-export { productServices }
+export default productServices 

@@ -5,7 +5,7 @@ const getAllProducts = async (req, res) => {
     res.status(200).json(products);
 };
 
-const getProductById = async (req, res) => {
+const getProductById = async (req, res) => { 
     const id = +req.params.id;
     const product = await productServices.oneProduct(id);
     res.status(200).json(product)

@@ -2,27 +2,39 @@ import productDal from "../dal/dal.products.js"
 
 
 const allProduct = async () => {
-    const allProduct = await productDal.readFiles()
+    const allProduct = await productDal.readFiles();
     console.log(allProduct)
-    return allProduct
+    return allProduct;
 }
 
 const oneProduct = async (id) => {
-    const products = await productDal.readFiles()
-    const requestedProduct = products.find((pro) => pro.id === id)
-    return requestedProduct
+    const products = await productDal.readFiles();
+    const requestedProduct = products.find((pro) => pro.id === id);
+    return requestedProduct;
 }
 
 
 const addProduct = async (product) => {
     try {
         const productsList = await productDal.readFiles()
-        productsList.push(product)
-        productDal.writeFiles(productsList)
-        return 'the product has been successfully added'
+        product.id = id(usersList)
+        productsList.push(product);
+        productDal.writeFiles(productsList);
+        return 'the product has been successfully added';
     } catch (err) {
-        return err
+        return err; 
     }
+}
+
+function id (products) {
+    let maxId = 0
+    products.forEach((element) => {
+        if (+element.id > maxId){
+            maxId = element.id 
+        }
+    });
+    const nextId = maxId + 1
+    return nextId
 }
 
 
@@ -62,9 +74,6 @@ const deleteProduct = async (productToDelete) => {
         console.log(productsList)
         const productIndex = productsList.findIndex(pro => pro.id == productToDelete)
         console.log(productIndex)
-        // if (product === -1){
-        //     return 'the product is not defined'
-        // }
         productsList.splice(productIndex, 1) 
         console.log(productsList)
         productDal.writeFiles(productsList)
